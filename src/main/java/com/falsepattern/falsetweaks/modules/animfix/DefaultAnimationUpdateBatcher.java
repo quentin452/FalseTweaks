@@ -107,9 +107,7 @@ public class DefaultAnimationUpdateBatcher implements IAnimationUpdateBatcher {
     @Override
     public void upload() {
         batchingSemaphore.release();
-        while (!uploadingSemaphore.tryAcquire()) {
-            Thread.yield();
-        }
+        uploadingSemaphore.acquire();
         for (int i = 0; i <= mipLevels; i++) {
             memory.position(offsets[i]);
             GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D,
@@ -123,9 +121,7 @@ public class DefaultAnimationUpdateBatcher implements IAnimationUpdateBatcher {
                                  memory);
         }
         batchingSemaphore.release();
-        while (!uploadingSemaphore.tryAcquire()) {
-            Thread.yield();
-        }
+        uploadingSemaphore.acquire();
     }
 
     @SneakyThrows
