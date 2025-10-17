@@ -50,7 +50,10 @@ public class Threading_TessellatorUseReplacement implements TurboClassTransforme
     private static final List<String> PREFIXES = new ArrayList<>();
 
     private static final boolean REPLACE_EVERYTHING;
-    private static final String[] REPLACE_EVERYTHING_WHITELIST = new String[]{"com.falsepattern.falsetweaks.",};
+    private static final String[] REPLACE_EVERYTHING_BLACKLIST = new String[]{
+        "com.falsepattern.falsetweaks.",
+        "project.studio.manametalmod.fx."
+    };
 
     private static final String[] HARDCODED = new String[]{"appeng.client.render.*",
                                                            "appeng.facade.FacadePart",
@@ -134,7 +137,7 @@ public class Threading_TessellatorUseReplacement implements TurboClassTransforme
     @Override
     public boolean shouldTransformClass(@NotNull String className, @NotNull ClassNodeHandle classNode) {
         if (REPLACE_EVERYTHING) {
-            for (val entry : REPLACE_EVERYTHING_WHITELIST) {
+            for (val entry : REPLACE_EVERYTHING_BLACKLIST) {
                 if (className.startsWith(entry)) {
                     return false;
                 }
